@@ -13,7 +13,7 @@ def send_data():
     client.connect((host, port))
 
     with open(filePath, "r") as f:
-        client.sendall((fileName + " #filnamesignature# " + f.read()).encode())
+        client.sendall((f.read() + "$#filenamesignature#$" + fileName).encode())
 
     client.close()
 
