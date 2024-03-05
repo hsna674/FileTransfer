@@ -15,8 +15,9 @@ def send_data():
 
 
 def receive_data():
-    hostName = socket.gethostname()
-    hostIP = socket.gethostbyname(hostName)
+    ipSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    ipSocket.connect(("8.8.8.8", 80))
+    hostIP = ipSocket.getsockname()[0]
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     port = 38573
 
