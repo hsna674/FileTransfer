@@ -1,4 +1,5 @@
 import socket
+from constants import *
 
 
 def send_data():
@@ -14,13 +15,12 @@ def send_data():
     except ValueError:
         print("Make sure that your input only contains exactly one period!")
         quit()
-    port = 38573
 
-    client.connect((host, port))
+    client.connect((host, PORT))
 
     with open(filePath, "r") as f:
-        client.sendall((f.read() + "$#filesignature#$"
-                        + fileName + "$#filesignature#$"
+        client.sendall((f.read() + FILE_SIGNATURE
+                        + fileName + FILE_SIGNATURE
                         + fileType).encode())
 
     client.close()
@@ -31,18 +31,17 @@ def receive_data():
     ipSocket.connect(("8.8.8.8", 80))
     hostIP = ipSocket.getsockname()[0]
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    port = 38573
 
-    server.bind((hostIP, port))
+    server.bind((hostIP, PORT))
     server.listen()
 
-    print(f"Server listening on {hostIP}:{port}")
+    print(f"Server listening on {hostIP}:{PORT}")
 
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
     fileData, fileName, fileType = client.recv(1024).decode().split(
-            "$#filesignature#$"
+            FILE_SIGNATURE
             )
 
     with open(fileName + "." + fileType, "w") as f:
