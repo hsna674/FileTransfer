@@ -6,14 +6,22 @@ def send_data():
 
     host = input("Enter the server IP adress: ")
     filePath = input("Enter the path of the file the you want to send: ")
-    fileName, fileType = input("Enter the name of the file you want to send (Include the file type!): ").split(".")
 
+    try:
+        fileName, fileType = input(
+                "Enter the name of the file you want to send (Include the file type!): "
+                ).split(".")
+    except ValueError:
+        print("Make sure that your input only contains exactly one period!")
+        quit()
     port = 38573
 
     client.connect((host, port))
 
     with open(filePath, "r") as f:
-        client.sendall((f.read() + "$#filesignature#$" + fileName + "$#filesignature#$" + fileType).encode())
+        client.sendall((f.read() + "$#filesignature#$"
+                        + fileName + "$#filesignature#$"
+                        + fileType).encode())
 
     client.close()
 
@@ -33,11 +41,13 @@ def receive_data():
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
-    fileData, fileName, fileType = client.recv(1024).decode().split("$#filesignature#$")
+    fileData, fileName, fileType = client.recv(1024).decode().split(
+            "$#filesignature#$"
+            )
 
     with open(fileName + "." + fileType, "w") as f:
         f.write(fileData)
-    
+
 
 def main():
     print("1. Send Data")
@@ -51,6 +61,7 @@ def main():
         receive_data()
     else:
         print("Invalid choice. Please enter 1 or 2.")
+
 
 if __name__ == "__main__":
     main()
