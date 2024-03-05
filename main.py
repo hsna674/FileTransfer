@@ -33,10 +33,9 @@ def receive_data():
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
-    data = client.recv(1024).decode().split("#filenamesignature#")
-    print(data)
-    receivedFileName = data[0]
-    fileData = data[1]
+    receivedFileName, fileData = client.recv(1024).decode().split("#filenamesignature#")
+    print(receivedFileName)
+    print(fileData)
 
     with open(receivedFileName + ".txt", "w") as f:
         f.write(fileData)
