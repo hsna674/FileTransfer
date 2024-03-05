@@ -16,7 +16,7 @@ def send_data():
 
 def receive_data():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    host = ''
+    host = "192.168.50.237"
     port = 38573
 
     server.bind((host, port))
