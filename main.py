@@ -34,8 +34,6 @@ def receive_data():
     print(f"Connection from {clientAddr}")
 
     fileData, fileName, fileType = client.recv(1024).decode().split("$#filesignature#$")
-    print(fileData)
-    print(fileName)
 
     with open(fileName + "." + fileType, "w") as f:
         f.write(fileData)
