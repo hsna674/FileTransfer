@@ -3,14 +3,17 @@ import socket
 
 def send_data():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
     host = input("Enter the server IP adress: ")
     filePath = input("Enter the path of the file the you want to send: ")
+    fileName = input("Enter the name of the file you want to send (Dont include file type!): ")
+
     port = 38573
 
     client.connect((host, port))
 
     with open(filePath, "r") as f:
-        client.sendall(f.read().encode())
+        client.sendall((fileName + "$%filnamesignature%$" + f.read()).encode())
 
     client.close()
 
@@ -30,8 +33,12 @@ def receive_data():
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
-    with open("new.txt", "w") as f:
-        f.write(client.recv(1024).decode())
+    data = client.recv(1024).decode().split("$%filenamesignature%$")
+    receivedFileName = data[0]
+    fileData = data[1]
+
+    with open(receivedFileName + ".txt", "w") as f:
+        f.write(fileData)
 
     client.close()
     server.close()
