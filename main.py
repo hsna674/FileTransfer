@@ -30,7 +30,7 @@ def receive_data():
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
-    with open("new.txt", w) as f:
+    with open("new.txt", "w") as f:
         f.write(client.recv(1024).decode())
 
     client.close()
