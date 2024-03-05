@@ -34,6 +34,7 @@ def receive_data():
     print(f"Connection from {clientAddr}")
 
     data = client.recv(1024).decode().split("$%filenamesignature%$")
+    print(data)
     receivedFileName = data[0]
     fileData = data[1]
 
