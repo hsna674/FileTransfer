@@ -33,16 +33,18 @@ def receive_data():
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
-    receivedFileName, fileData = client.recv(1024).decode().split("#filenamesignature#")
-    print(receivedFileName)
+    fileData = client.recv(1024).decode()
+    print(fileData)
+    """
     print(fileData)
 
     with open(receivedFileName + ".txt", "w") as f:
         f.write(fileData)
-
+    
+    """
     client.close()
     server.close()
-
+    
 
 def main():
     print("1. Send Data")
@@ -56,7 +58,6 @@ def main():
         receive_data()
     else:
         print("Invalid choice. Please enter 1 or 2.")
-
 
 if __name__ == "__main__":
     main()
