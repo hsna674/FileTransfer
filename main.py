@@ -6,14 +6,14 @@ def send_data():
 
     host = input("Enter the server IP adress: ")
     filePath = input("Enter the path of the file the you want to send: ")
-    fileName = input("Enter the name of the file you want to send (Dont include file type!): ")
+    fileName, fileType = input("Enter the name of the file you want to send (Include the file type!): ").split(".")
 
     port = 38573
 
     client.connect((host, port))
 
     with open(filePath, "r") as f:
-        client.sendall((f.read() + "$#filenamesignature#$" + fileName).encode())
+        client.sendall((f.read() + "$#filesignature#$" + fileName + "$#filesignature#$" + fileType).encode())
 
     client.close()
 
@@ -33,11 +33,11 @@ def receive_data():
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
-    fileData, fileName = client.recv(1024).decode().split("$#filenamesignature#$")
+    fileData, fileName, fileType = client.recv(1024).decode().split("$#filesignature#$")
     print(fileData)
     print(fileName)
 
-    with open(fileName + ".txt", "w") as f:
+    with open(fileName + "." + fileType, "w") as f:
         f.write(fileData)
     
 
