@@ -13,7 +13,7 @@ def send_data():
     client.connect((host, port))
 
     with open(filePath, "r") as f:
-        client.sendall((fileName + "$%filnamesignature%$" + f.read()).encode())
+        client.sendall((fileName + "#filnamesignature#" + f.read()).encode())
 
     client.close()
 
@@ -33,7 +33,7 @@ def receive_data():
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
-    data = client.recv(1024).decode().split("$%filenamesignature%$")
+    data = client.recv(1024).decode().split("#filenamesignature#")
     print(data)
     receivedFileName = data[0]
     fileData = data[1]
