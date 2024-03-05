@@ -15,14 +15,15 @@ def send_data():
 
 
 def receive_data():
+    hostName = socket.gethostname()
+    hostIP = socket.gethostbyname(hostName)
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    host = "192.168.50.237"
     port = 38573
 
-    server.bind((host, port))
+    server.bind((hostIP, port))
     server.listen()
 
-    print(f"Server listening on {host}:{port}")
+    print(f"Server listening on {hostIP}:{port}")
 
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
