@@ -33,7 +33,7 @@ def receive_data():
     client, clientAddr = server.accept()
     print(f"Connection from {clientAddr}")
 
-    fileData, fileName = client.recv(1024).decode()
+    fileData, fileName = client.recv(1024).decode().split("$#filenamesignature#$")
     print(fileData)
     print(fileName)
 
